@@ -1,3 +1,5 @@
+#Recebe o horário que é inserido pelo usuário, e transforma o valor de AM ou PM para o padrão de 24 horas
+#Pega os valores das horas e dos minutos (do horário atual e do tempo que vai se passar) e separa em duas listas com dois elementos cada (int) e retorna um tupla que tem esses dois elementos
 def tratamento_horas_e_minutos(start, duration):
     hora = start.split()
     tempo = hora[1].lower()
@@ -15,6 +17,9 @@ def tratamento_horas_e_minutos(start, duration):
     
     return (hora_final,duracao_final)
 
+#Essa função pega o resultado da função anterior e faz os cáclculos para ver o horário final depois da soma dos horários
+#A função também facilita o cálculo ao verificar quantos dias se passaram caso o horário da duração seja >= 24
+#Ela retorna a hora final, o minuto final, e a quantidade de dias passados depois de todos os cálculos realizados
 def soma_hora_e_tempo_corrido(tupla):
     somar_hora = tupla[1][0]
     dias_passados = 0
@@ -35,6 +40,10 @@ def soma_hora_e_tempo_corrido(tupla):
         dias_passados += 1 
     return hora_final, minuto_final,dias_passados
 
+#Essa é uma funçaõ que recebe o dia atual com uma string e a quantidade de dias corridos (valor que se consegue na função anterior)
+#Ela é utilizada caso o usuário queira ver qual o dia está depois do tempo corrido que ele decidiu
+#A função percorre a lista para ver a posição do dia atual, e é realizado um cálculo para verificar qual será o dia após o cálculo dos dias passados
+#Retorna uma String com o nome do dia que será após o tempo corrido
 def verifica_dia_da_semana(dia, dias_corridos):
     lista = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     cont = 1
@@ -54,6 +63,10 @@ def verifica_dia_da_semana(dia, dias_corridos):
 
     return lista[dia_da_semana_atual-1]
 
+#Depois de descobrir o horário, os dias corridos, e o dia que será após os dias corridos,a última função junta todas as informações
+#Ela volta o horário do padrão 24h para o padrão AM_PM e une todas as informações após serem formatadas
+#E também pede para que o usuário diga se quer ou não que o dia atual seja mostrado
+#Retorna a string completa de acordo com o que foi pedido pelo usuário
 def trata_hora_padrao_us(tupla_hora_e_tempo_corrido, mostrar_dia=None):
     hora = tupla_hora_e_tempo_corrido[0]
     minuto = tupla_hora_e_tempo_corrido[1]
@@ -88,6 +101,7 @@ def trata_hora_padrao_us(tupla_hora_e_tempo_corrido, mostrar_dia=None):
 
     return hora_final
 
+#Função principal que aplica todos os tratamentos e retorna a variável 'new_time' que é uma string com as informações formatadas
 def add_time(start, duration, day_of_the_week=None):
     hora_tratada = tratamento_horas_e_minutos(start, duration)
     hora_tratada_padrao_24 = soma_hora_e_tempo_corrido(hora_tratada)
